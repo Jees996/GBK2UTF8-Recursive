@@ -1,15 +1,30 @@
 import os
 import shutil
+import sys
 
 # 定义路径
-BASE_DIR = r"D:\Work\Python\GBK to UTF8"
-imput_DIR = os.path.join(BASE_DIR, "imput")
-OUTPUT_DIR = os.path.join(BASE_DIR, "output")
-BACKUP_DIR = os.path.join(BASE_DIR, "backup")
+# 程序运行时，根据运行方式选择工作目录：
+# - 打包为 exe 时（frozen）：使用 exe 所在目录作为自包含的工作目录（所有导入/导出/备份在此目录下）
+# - 以脚本运行时：保持原行为，使用项目结构下的 Code 目录
+if getattr(sys, 'frozen', False):
+    app_dir = os.path.dirname(sys.executable)
+    CODE_DIR = app_dir
+else:
+    app_dir = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(app_dir, os.pardir))
+    CODE_DIR = os.path.join(BASE_DIR, "Code")
+
+imput_DIR = os.path.join(CODE_DIR, "imput")
+OUTPUT_DIR = os.path.join(CODE_DIR, "output")
+BACKUP_DIR = os.path.join(CODE_DIR, "backup")
 
 def convert_files_recursive():
     if not os.path.exists(imput_DIR):
-        print(f"错误：找不到输入文件夹 {imput_DIR}")
+        # 当输入文件夹不存在时，自动创建输入/输出/备份目录（便于 exe 模式的自包含使用）
+        os.makedirs(imput_DIR, exist_ok=True)
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        os.makedirs(BACKUP_DIR, exist_ok=True)
+        print(f"输入文件夹 {imput_DIR} 不存在，已创建。请将要转换的文件放入该文件夹后重新运行。")
         return
 
     print("开始扫描文件夹并处理文件...")

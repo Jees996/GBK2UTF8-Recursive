@@ -1,0 +1,39 @@
+# Byte-compiled / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+*.spec
+
+# PyInstaller output and executables
+# 保留 EXE 文件夹但忽略其中运行产生的输入/输出/备份内容（保留 .gitkeep 占位文件）
+/EXE/imput/**
+!/EXE/imput/.gitkeep
+/EXE/output/**
+!/EXE/output/.gitkeep
+/EXE/backup/**
+!/EXE/backup/.gitkeep
+# 仅忽略 PyInstaller 规范文件
+/*.spec
+
+# Virtual environments
+.env/
+.venv/
+venv/
+ENV/
+
+# Editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Other
+run_output.txt
